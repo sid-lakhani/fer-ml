@@ -6,7 +6,6 @@ This project implements an emotion detection system using a webcam and the KNN (
 - [Project Structure](#project-structure)
 - [Installation](#installation)
 - [Usage](#usage)
-- [License](#license)
 
 ## Project Structure
 
