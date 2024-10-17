@@ -1,7 +1,3 @@
-Here's a detailed **README** file for your project, which includes the folder structure, installation commands, and instructions for running the emotion detection program.
-
----
-
 # Emotion Detection with KNN
 
 This project implements an emotion detection system using a webcam and the KNN (K-Nearest Neighbors) algorithm. It uses the FER-2013 dataset for training and OpenCV for real-time face and emotion detection. The detected emotions are classified into seven categories and displayed in real-time. You can capture an image and save it in the appropriate folder based on the predicted emotion.
@@ -10,7 +6,6 @@ This project implements an emotion detection system using a webcam and the KNN (
 - [Project Structure](#project-structure)
 - [Installation](#installation)
 - [Usage](#usage)
-- [License](#license)
 
 ## Project Structure
 
