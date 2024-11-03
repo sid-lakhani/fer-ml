@@ -57,7 +57,8 @@ while True:
         emotion_index = np.argmax(cnn_model.predict(face_resized))
         emotion = emotion_labels[emotion_index]
         cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
-        cv2.putText(frame, emotion, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
+        cv2.putText(frame, emotion, (x, y - 10), cv2.FON
+                    T_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
 
     cv2.imshow('Emotion Detection', frame)
 

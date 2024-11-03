@@ -1,6 +1,6 @@
 # Emotion Detection with KNN
 
-This project implements an emotion detection system using a webcam and the KNN (K-Nearest Neighbors) algorithm. It uses the FER-2013 dataset for training and OpenCV for real-time face and emotion detection. The detected emotions are classified into seven categories and displayed in real-time. You can capture an image and save it in the appropriate folder based on the predicted emotion.
+This project implements an emotion detection system using a webcam and a Convolutional Neural Network (CNN) for classification. It utilizes the FER-2013 dataset for training and OpenCV for real-time face and emotion detection. The detected emotions are classified into seven categories and displayed in real-time. You can capture an image and save it in the appropriate folder based on the predicted emotion.
 
 ## Table of Contents
 - [Project Structure](#project-structure)
@@ -55,7 +55,8 @@ Follow these steps to set up the environment and run the project.
 ### Prerequisites
 - **Python 3.x**
 - **OpenCV** (for face detection and real-time video processing)
-- **scikit-learn** (for machine learning and KNN classifier)
+- **TensorFlow** (for building and training the CNN model)
+- **NumPy** (for data manipulation)
 
 ### Install Dependencies
 
@@ -68,7 +69,7 @@ pip install -r requirements.txt
 You can manually install the libraries if `requirements.txt` is not provided:
 
 ```bash
-pip install opencv-python scikit-learn numpy
+pip install opencv-python tensorflow numpy
 ```
 
 ## Usage
