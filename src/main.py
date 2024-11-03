@@ -1,7 +1,10 @@
 import cv2
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import numpy as np
-from sklearn.neighbors import KNeighborsClassifier
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 
 train_path = '../dataset/train/'
 emotions_path = '../emotions'
@@ -19,14 +22,25 @@ def load_data():
             img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
             if img is not None:
                 img_resized = cv2.resize(img, (48, 48))
-                data.append(img_resized.flatten())
+                data.append(img_resized)
                 labels.append(emotion_labels.index(emotion))
     return np.array(data), np.array(labels)
 
 X, y = load_data()
+X = X.reshape(-1, 48, 48, 1) / 255.0
 
-knn = KNeighborsClassifier(n_neighbors=5)
-knn.fit(X, y)
+cnn_model = Sequential([
+    Conv2D(32, (3, 3), activation='relu', input_shape=(48, 48, 1)),
+    MaxPooling2D(2, 2),
+    Conv2D(64, (3, 3), activation='relu'),
+    MaxPooling2D(2, 2),
+    Flatten(),
+    Dense(128, activation='relu'),
+    Dense(len(emotion_labels), activation='softmax')
+])
+
+cnn_model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+cnn_model.fit(X, y, epochs=10, batch_size=32)
 
 cap = cv2.VideoCapture(0)
 face_cascade = cv2.CascadeClassifier('../utils/haarcascade_frontalface_default.xml')
@@ -39,9 +53,8 @@ while True:
 
     for x, y, w, h in faces:
         face_roi = gray[y:y + h, x:x + w]
-        face_resized = cv2.resize(face_roi, (48, 48))
-        face_flattened = face_resized.flatten().reshape(1, -1)
-        emotion_index = knn.predict(face_flattened)[0]
+        face_resized = cv2.resize(face_roi, (48, 48)).reshape(1, 48, 48, 1) / 255.0
+        emotion_index = np.argmax(cnn_model.predict(face_resized))
         emotion = emotion_labels[emotion_index]
         cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
         cv2.putText(frame, emotion, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
