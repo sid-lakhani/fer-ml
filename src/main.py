@@ -12,7 +12,6 @@ emotions_path = '../emotions'
 emotion_labels = ['angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
 emotion_counters = {emotion: 0 for emotion in emotion_labels}
 
-# Load and preprocess data for CNN
 def load_data():
     data = []
     labels = []
@@ -28,9 +27,8 @@ def load_data():
     return np.array(data), np.array(labels)
 
 X, y = load_data()
-X = X.reshape(-1, 48, 48, 1) / 255.0  # Reshape and normalize images
+X = X.reshape(-1, 48, 48, 1) / 255.0
 
-# Define a simple CNN model for emotion classification
 cnn_model = Sequential([
     Conv2D(32, (3, 3), activation='relu', input_shape=(48, 48, 1)),
     MaxPooling2D(2, 2),
@@ -41,11 +39,9 @@ cnn_model = Sequential([
     Dense(len(emotion_labels), activation='softmax')
 ])
 
-# Compile and train the CNN model
 cnn_model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-cnn_model.fit(X, y, epochs=10, batch_size=32)  # Adjust epochs and batch_size as needed
+cnn_model.fit(X, y, epochs=10, batch_size=32)
 
-# Open the webcam for real-time emotion detection
 cap = cv2.VideoCapture(0)
 face_cascade = cv2.CascadeClassifier('../utils/haarcascade_frontalface_default.xml')
 
@@ -57,7 +53,7 @@ while True:
 
     for x, y, w, h in faces:
         face_roi = gray[y:y + h, x:x + w]
-        face_resized = cv2.resize(face_roi, (48, 48)).reshape(1, 48, 48, 1) / 255.0  # Reshape and normalize input
+        face_resized = cv2.resize(face_roi, (48, 48)).reshape(1, 48, 48, 1) / 255.0
         emotion_index = np.argmax(cnn_model.predict(face_resized))
         emotion = emotion_labels[emotion_index]
         cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
