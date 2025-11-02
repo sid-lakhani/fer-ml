@@ -2,6 +2,8 @@
 
 This project implements an emotion detection system using a webcam and a Convolutional Neural Network (CNN) for classification. It utilizes the FER-2013 dataset for training and OpenCV for real-time face and emotion detection. The detected emotions are classified into seven categories and displayed in real-time. You can capture an image and save it in the appropriate folder based on the predicted emotion.
 
+![Demo](demo.png)
+
 ## Table of Contents
 - [Project Structure](#project-structure)
 - [Installation](#installation)
